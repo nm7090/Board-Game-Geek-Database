@@ -1,0 +1,34 @@
+﻿@{
+    ViewData["Title"] = "Pokemon Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Poke Database</h1>
+    <div>
+        <input type="text" id="pokeNameInput" placeholder="Enter Pokemon Name"/>
+        <button type="button" id="fetchPokeDataButton">Fetch Pokemon Data</button>
+    </div>
+
+    <div id="pokeResult" style="margin-top: 20px">
+
+    </div>
+
+    <a asp-action="About" asp-controller="Home">Back To About Page</a>
+</div>
+
+<script>
+    document.getElementById("fetchPokeDataButton").addEventListener("click", async () => {
+        const name = document.getElementById("pokeNameInput").value;
+        if(!name) return alert("Please enter a Pokemon name.");
+            
+        const response = await fetch("/Poke/GrabPokemon?name=" + name)
+        
+        if (response.ok) {
+            const html = await response.text();
+            document.getElementById("pokeResult").innerHTML = html;     
+        } else {
+            document.getElementById("pokeResult").innerHTML = "<p>Pokemon Not Found</p>";
+        }  
+    })
+</script>
+

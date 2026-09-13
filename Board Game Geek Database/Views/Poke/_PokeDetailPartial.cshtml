@@ -6,6 +6,11 @@
     <h2>Id: @Model.Id</h2>
     <h2>Weight: @Model.Weight</h2>
     <h2>Order: @Model.Order</h2>
-    <h2>Abilities: @Model.Abilities</h2>
+	<h2>Abilities:</h2>
+	@foreach (var ability in Model.Abilities)
+	{
+		<h3>Ability Name: @ability.ability.name</h3>
+		<h4>Is Hidden: @ability.is_hidden</h4>
+	}
 </div>
 

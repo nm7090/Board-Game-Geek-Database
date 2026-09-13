@@ -9,7 +9,7 @@ namespace Board_Game_Geek_Database.Models
         public int Order { get; set; }
         public int Weight { get; set; }
 
-        public List<Dictionary<string, object>> Abilities { get; set; } = new List<Dictionary<string, object>>();
+        public List<AbilityDto> Abilities { get; set; } = new List<AbilityDto>();
     }
 
     public class PokeModelDto
@@ -23,6 +23,19 @@ namespace Board_Game_Geek_Database.Models
         [JsonPropertyName("weight")]
         public int Weight { get; set; }
         [JsonPropertyName("abilities")]
-        public List<Dictionary<string, object>> Abilities { get; set; } = new List<Dictionary<string, object>>();
+        public List<AbilityDto> Abilities { get; set; } = new List<AbilityDto>();
+    }
+
+    public class AbilityDto
+    {
+        public Boolean is_hidden { get; set; }
+        public int slot { get; set; }
+        public AbilityNameDto? ability { get; set; }
+    }
+
+    public class AbilityNameDto
+    {
+        public string? name { get; set; }
+        public string? url { get; set; }
     }
 }

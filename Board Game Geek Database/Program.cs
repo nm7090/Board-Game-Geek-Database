@@ -49,7 +49,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-string outputPath = Path.Combine(builder.Environment.ContentRootPath, "docs");
+string outputPath = Path.Combine(builder.Environment.ContentRootPath, "..", "docs");
 app.GenerateStaticContent(outputPath);
 
 app.Run();

@@ -9,13 +9,13 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient();
 
 var provider = new StaticResourcesInfoProvider(
-    new ResourceInfoBase[]
+    new PageResource[]
     {
       new PageResource("/"),
-      new PageResource("/Privacy"),
-      new PageResource("/About"),
-      new PageResource("/BGDatabase"),
-      new PageResource("/Poke"),
+      new PageResource("/Home/Privacy"),
+      new PageResource("/Home/About"),
+      new PageResource("/Home/BGDatabase"),
+      new PageResource("/Home/Poke"),
     });
 
 provider.AddAllWebRootContent(builder.Environment);
@@ -23,6 +23,11 @@ provider.AddAllWebRootContent(builder.Environment);
 builder.Services.AddSingleton<IStaticResourcesInfoProvider>(provider);
 
 var app = builder.Build();
+
+if(app.Environment.IsProduction())
+{
+    app.UsePathBase("/Board-Game-Geek-Database");
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -45,6 +50,6 @@ app.MapControllerRoute(
     .WithStaticAssets();
 
 string outputPath = Path.Combine(builder.Environment.ContentRootPath, "..", "docs");
-app.GenerateStaticContent(outputPath);
+app.GenerateStaticContent(outputPath, alwaysDefaultFile: true);
 
 app.Run();

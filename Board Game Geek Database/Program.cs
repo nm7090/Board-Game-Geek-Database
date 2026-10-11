@@ -17,7 +17,7 @@ builder.Services.AddSingleton<IStaticResourcesInfoProvider>(
       new PageResource("/Home/About"),
       new PageResource("/Home/BGDatabase"),
       new PageResource("/Home/Poke"),
-      new CssResource("/bootstrap/dist/css/bootstrap.css") { OptimizationType = OptimizationType.None },
+      new CssResource("/lib/bootstrap/dist/css/bootstrap.css") { OptimizationType = OptimizationType.None },
       new CssResource("/css/site.css"),
       new JsResource("/js/site.js"),
       new BinResource("/favicon.ico")
@@ -49,7 +49,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-string outputPath = Path.Combine(builder.Environment.ContentRootPath, "StaticSite");
+string outputPath = Path.Combine(builder.Environment.ContentRootPath, "docs");
 app.GenerateStaticContent(outputPath);
 
 app.Run();

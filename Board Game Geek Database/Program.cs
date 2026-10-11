@@ -8,20 +8,19 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient();
 
-builder.Services.AddSingleton<IStaticResourcesInfoProvider>(
-  new StaticResourcesInfoProvider(
+var provider = new StaticResourcesInfoProvider(
     new ResourceInfoBase[]
     {
       new PageResource("/"),
-      new PageResource("/Home/Privacy"),
-      new PageResource("/Home/About"),
-      new PageResource("/Home/BGDatabase"),
-      new PageResource("/Home/Poke"),
-      new CssResource("/lib/bootstrap/dist/css/bootstrap.css") { OptimizationType = OptimizationType.None },
-      new CssResource("/css/site.css"),
-      new JsResource("/js/site.js"),
-      new BinResource("/favicon.ico")
-    }));
+      new PageResource("/Privacy"),
+      new PageResource("/About"),
+      new PageResource("/BGDatabase"),
+      new PageResource("/Poke"),
+    });
+
+provider.AddAllWebRootContent(builder.Environment);
+
+builder.Services.AddSingleton<IStaticResourcesInfoProvider>(provider);
 
 var app = builder.Build();
 
@@ -44,10 +43,6 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 string outputPath = Path.Combine(builder.Environment.ContentRootPath, "..", "docs");
 app.GenerateStaticContent(outputPath);

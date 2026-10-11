@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient();
 
+// Setup For Github Pages
 var provider = new StaticResourcesInfoProvider(
     new PageResource[]
     {
@@ -22,12 +23,8 @@ provider.AddAllWebRootContent(builder.Environment);
 
 builder.Services.AddSingleton<IStaticResourcesInfoProvider>(provider);
 
+// App Builder build
 var app = builder.Build();
-
-if(app.Environment.IsProduction())
-{
-    app.UsePathBase("/Board-Game-Geek-Database");
-}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -42,6 +39,7 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+// App Setup For Creating Static site files
 app.MapStaticAssets();
 
 app.MapControllerRoute(
@@ -50,6 +48,6 @@ app.MapControllerRoute(
     .WithStaticAssets();
 
 string outputPath = Path.Combine(builder.Environment.ContentRootPath, "..", "docs");
-app.GenerateStaticContent(outputPath, alwaysDefaultFile: true);
+app.GenerateStaticContent(outputPath, alwaysDefaultFile: true, dontUpdateLinks: false);
 
 app.Run();

@@ -7,4 +7,9 @@
     <RootNamespace>Board_Game_Geek_Database</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AspNetStatic" Version="0.27.8" />
+    <PackageReference Include="AspNetStaticContrib" Version="1.2.1" />
+  </ItemGroup>
+
 </Project>
